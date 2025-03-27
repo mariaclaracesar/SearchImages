@@ -1,14 +1,14 @@
 import React from 'react';
 
+import {HomeScreen} from '@screens';
 import {ThemeProvider} from '@shopify/restyle';
-import {LoginScreen} from './src/screens';
 import {theme} from './theme';
 
 function App(): React.JSX.Element {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <LoginScreen />
+        <HomeScreen />
       </ThemeProvider>
     </>
   );
