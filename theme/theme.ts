@@ -24,7 +24,22 @@ export const palette = {
 
 export const theme = createTheme({
   colors: {
-    buttonBackground: palette.purplePrimary,
+    ...palette,
+    primary: palette.greenPrimary,
+    primaryContrast: palette.grayWhite,
+
+    buttonPrimary: palette.greenPrimary,
+
+    background: palette.grayWhite,
+    backgroundContrast: palette.grayBlack,
+
+    error: palette.redError,
+    errorLight: palette.redErrorLight,
+
+    success: palette.greenSuccess,
+    successLight: palette.greenSuccessLight,
+
+    market: palette.carrotSecondary,
   },
   spacing: {
     s4: 4,
