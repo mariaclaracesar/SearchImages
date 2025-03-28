@@ -1,7 +1,8 @@
 import {postApi} from './postApi';
+import {UnsplashImage} from './postTypes';
 
-async function getList() {
-  const postList = await postApi.getList();
+async function getList(query: string): Promise<UnsplashImage[]> {
+  const postList = await postApi.getList(query);
   return postList;
 }
 

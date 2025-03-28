@@ -1,5 +1,7 @@
 export interface UnsplashImage {
   id: string;
+  created_at: string;
+  updated_at: string;
   description: string | null;
   alt_description: string | null;
   urls: {
@@ -10,8 +12,15 @@ export interface UnsplashImage {
     thumb: string;
   };
   user: {
+    id: string;
     name: string;
     username: string;
+    portfolio_url: string | null;
+    profile_image: {
+      small: string;
+      medium: string;
+      large: string;
+    };
   };
 }
 
