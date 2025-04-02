@@ -1,5 +1,4 @@
-import {useAppTheme} from '@hooks';
-import {useAppSafeArea} from 'src/hooks/useAppSafeArea';
+import {useAppSafeArea, useAppTheme} from '@hooks';
 import {Box, BoxProps} from '../Box/Box';
 
 import {KeyboardAvoidingView, Platform} from 'react-native';

@@ -1,6 +1,7 @@
-import {Box, Screen, TextInput} from '@components';
+import {Button, PostItem, Screen, TextInput} from '@components';
 import {postService, UnsplashImage} from '@domain';
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import {FlatList} from 'react-native';
 
 export function HomeScreen() {
   const [postList, setPostList] = useState<UnsplashImage[]>([]);
@@ -8,48 +9,40 @@ export function HomeScreen() {
 
   const handleSearch = async () => {
     const results = await postService.getList(search);
+    console.log('Resultados da API:', results);
     setPostList(results);
   };
 
   useEffect(() => {
     handleSearch();
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const flatListRef = React.useRef<FlatList>(null);
+
+  // Mas o FlatList espera que renderItem receba um objeto { item }, então precisa ser assim:
+  function renderItem({item}: {item: UnsplashImage}) {
+    return <PostItem post={item} />;
+  }
 
   return (
-    // <Box padding="s24" flex={1} justifyContent="center">
-    //   <Text mb="s8" preset="headingLarge">
-    //     Olá!
-    //   </Text>
-    //   <Text preset="paragraphLarge">Procurando imagens pra se inspirar?</Text>
-
-    //   <Box mt="s32">
-    //     <TextInput
-    //       placeholder="Ex: cachorros fofinhos"
-    //       label="Busque uma imagem"
-    //       value={search}
-    //       onChangeText={setSearch}
-    //     />
-
-    //     <Button marginTop="s24" title="Buscar" onPress={handleSearch} />
-
-    //     {/* {postList.map(post => (
-    //       <Box key={post.id} mt="s16">
-    //         <Text>{post.description || 'Sem descrição'}</Text>
-    //       </Box>
-    //     ))} */}
-
-    //   </Box>
-    // </Box>
-
     <Screen>
-      <Box>
-        <TextInput
-          placeholder="Ex: cachorros fofinhos"
-          label="Busque uma imagem"
-          value={search}
-          onChangeText={setSearch}
-        />
-      </Box>
+      <TextInput
+        placeholder="Ex: cachorros fofinhos"
+        label="Busque uma imagem"
+        value={search}
+        onChangeText={setSearch}
+      />
+
+      <Button marginTop="s8" title="Buscar" onPress={handleSearch} />
+
+      <FlatList
+        ref={flatListRef}
+        showsVerticalScrollIndicator={false}
+        data={postList}
+        keyExtractor={item => item.id}
+        renderItem={renderItem}
+      />
     </Screen>
   );
 }
