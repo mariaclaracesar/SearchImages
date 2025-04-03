@@ -8,16 +8,19 @@ import {
   TextStyle,
 } from 'react-native';
 import {Box, BoxProps} from '../Box/Box';
+import {Icon, IconNames} from '../Icon/Icon';
 import {$fontFamily, $fontSizes, Text} from '../Text/Text';
 
 interface TextInputProps extends RNTextInputProps {
-  label: string;
+  label?: string;
   boxProps?: BoxProps;
+  iconName?: IconNames;
 }
 
 export function TextInput({
   label,
   boxProps,
+  iconName,
   ...rnTextInputProps
 }: TextInputProps) {
   const {colors} = useAppTheme();
@@ -30,10 +33,15 @@ export function TextInput({
   return (
     <Box {...boxProps}>
       <Pressable onPress={focusInput}>
-        <Text marginBottom="s4" preset="paragraphMedium">
-          {label}
-        </Text>
-        <Box {...$textInputContainer}>
+        <Text preset="paragraphMedium">{label}</Text>
+        <Box
+          {...$textInputContainer}
+          flexDirection="row"
+          padding="s8"
+          alignItems="center">
+          <Box margin="s8">
+            {iconName && <Icon name={iconName} size={20} color="gray2" />}
+          </Box>
           <RNTextInput
             ref={inputRef}
             placeholderTextColor={colors.gray2}
@@ -49,12 +57,12 @@ export function TextInput({
 const $textInputStyle: TextStyle = {
   padding: 0,
   fontFamily: $fontFamily.regular,
-  ...$fontSizes.headingMedium,
+  ...$fontSizes.headingSmall,
 };
 
 const $textInputContainer: BoxProps = {
-  borderWidth: 1,
   padding: 's14',
   borderColor: 'gray4',
-  borderRadius: 's12',
+  borderRadius: 's16',
+  backgroundColor: 'gray4',
 };

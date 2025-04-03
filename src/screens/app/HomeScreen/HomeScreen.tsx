@@ -1,7 +1,8 @@
-import {Button, PostItem, Screen, TextInput} from '@components';
+import {PostItem, Screen} from '@components';
 import {postService, UnsplashImage} from '@domain';
 import React, {useEffect, useState} from 'react';
 import {FlatList} from 'react-native';
+import {SearchEntry} from './Components/SearchEntry';
 
 export function HomeScreen() {
   const [postList, setPostList] = useState<UnsplashImage[]>([]);
@@ -11,6 +12,7 @@ export function HomeScreen() {
     const results = await postService.getList(search);
     console.log('Resultados da API:', results);
     setPostList(results);
+    setSearch('');
   };
 
   useEffect(() => {
@@ -20,21 +22,17 @@ export function HomeScreen() {
 
   const flatListRef = React.useRef<FlatList>(null);
 
-  // Mas o FlatList espera que renderItem receba um objeto { item }, então precisa ser assim:
   function renderItem({item}: {item: UnsplashImage}) {
     return <PostItem post={item} />;
   }
 
   return (
-    <Screen>
-      <TextInput
-        placeholder="Ex: cachorros fofinhos"
-        label="Busque uma imagem"
+    <Screen flex={1} backgroundColor="gray4">
+      <SearchEntry
         value={search}
         onChangeText={setSearch}
+        onPress={handleSearch}
       />
-
-      <Button marginTop="s8" title="Buscar" onPress={handleSearch} />
 
       <FlatList
         ref={flatListRef}
@@ -42,6 +40,7 @@ export function HomeScreen() {
         data={postList}
         keyExtractor={item => item.id}
         renderItem={renderItem}
+        numColumns={2}
       />
     </Screen>
   );

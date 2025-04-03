@@ -1,4 +1,5 @@
 import {UnsplashImage} from '@domain';
+import {Pressable} from 'react-native';
 import {PostImage} from './Components/PostImage';
 
 interface Props {
@@ -6,5 +7,9 @@ interface Props {
 }
 
 export function PostItem({post}: Props) {
-  return <PostImage imageUrl={post.urls.regular} />;
+  return (
+    <Pressable>
+      <PostImage userName={post.user.name} imageUrl={post.urls.regular} />
+    </Pressable>
+  );
 }
